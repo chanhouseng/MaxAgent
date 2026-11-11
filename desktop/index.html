@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'">
+<title>MaxAgent</title><link rel="stylesheet" href="style.css"><script defer src="../node_modules/marked/lib/marked.umd.js"></script><script defer src="markdown.js"></script><script defer src="controller.js"></script><script defer src="renderer.js"></script>
+</head>
+<body>
+
+<dialog id="settings-dialog" aria-labelledby="settings-title"><div class="settings-head"><h2 id="settings-title">設定</h2><button id="settings-close" type="button" aria-label="關閉設定">關閉</button></div><fieldset><legend>介面外觀</legend><label><input type="radio" name="theme" value="light"> 亮色</label><label><input type="radio" name="theme" value="dark"> 暗色</label></fieldset><fieldset><legend>通知</legend><label><input type="checkbox" id="windows-notifications"> Windows 完成通知</label><p>確認任務結果後顯示系統通知。</p></fieldset><fieldset><legend>桌面寵物</legend><label><input type="checkbox" id="desktop-pet"> 顯示桌面寵物</label><p>在小視窗查看任務狀態。</p></fieldset><div class="settings-cli"><h3>Claude Code</h3><p>設定此電腦的 Claude Code 執行檔。</p><button id="choose-claude" type="button">選擇 Claude CLI</button></div></dialog>
+<main>
+  <section id="overview"><header class="appbar"><strong>MaxAgent</strong><button id="settings">設定</button></header><div class="overview-head"><h1>所有對話</h1><p>選擇一個對話，接著查看或派工。</p></div><div class="tools"><input id="search" type="search" placeholder="搜尋對話或專案" aria-label="搜尋對話或專案"><button id="refresh" aria-label="重新整理">重新整理</button></div><div class="filter-row"><nav id="filters" aria-label="篩選對話"><button data-filter="all" aria-pressed="true">全部</button><button data-filter="codex" aria-pressed="false">Codex</button><button data-filter="claude" aria-pressed="false">Claude Code</button><button data-filter="unread" aria-pressed="false">未讀</button></nav><span class="unread-legend">● 未讀：有新訊息尚未查看</span><span id="overview-count"></span></div><div id="cards" class="cards"></div><button id="more" type="button" hidden>載入更多</button></section>
+  <header class="top" hidden><button id="back" type="button">← 返回總覽</button><div id="identity" class="identity" hidden><span id="badge"></span><h1 id="title"></h1><p id="cwd"></p></div><span id="status" role="status"></span></header>
+  <div id="notice" role="status" hidden></div>
+  <div id="codex-fallback" hidden><span id="codex-fallback-description"></span> <button id="codex-fallback-button" type="button">複製任務並開啟 Codex</button></div>
+  <section id="history" aria-label="對話歷史" hidden>
+    <div class="empty"><span class="orbit">∷</span><h1>接回你正在做的事。</h1><p>從總覽選擇既有 Codex 或 Claude Code 對話，查看歷史並接著派下一輪任務。</p></div>
+  </section>
+  <form id="composer" hidden>
+    <div class="model-options"><span id="model-context">下一輪設定</span><label>模型 <select id="chat-model"><option value="">沿用原工具設定</option></select></label><label>推理強度 <select id="chat-effort"><option value="">沿用原工具設定</option></select></label><button id="model-refresh" type="button">重新取得模型</button><span id="model-help" role="status"></span></div><label for="prompt">追加到原對話</label>
+    <textarea id="prompt" rows="3" maxlength="12000" placeholder="輸入要交給這個聊天室的下一輪任務…" required></textarea>
+    <div class="actions"><p>此任務可修改工作目錄的檔案；需要額外批准的操作會被拒絕。模型可能計費。</p><button id="send" type="submit">發送任務 <span aria-hidden="true">↑</span></button></div>
+  </form>
+</main>
+</body>
+</html>
+

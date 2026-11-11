@@ -1,0 +1,1 @@
+function createNotifier(show){const seen=new Set();return (enabled,key,turn,tool)=>{if(typeof key!=='string'||!key||typeof turn!=='string'||!turn||!['codex','claude'].includes(tool))return;const token=JSON.stringify([key,turn]);if(seen.has(token))return;seen.add(token);if(enabled!==true)return;try{show(tool)}catch{}}}module.exports={createNotifier};

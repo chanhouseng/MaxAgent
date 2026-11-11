@@ -1,0 +1,4 @@
+const {test}=require('node:test'),assert=require('node:assert/strict');const {codexSpawnError,codexRpcError}=require('./codex-error');
+test('啟動錯誤依錯誤碼分開',()=>{assert.match(codexSpawnError({code:'EACCES'}),/權限/);assert.match(codexSpawnError({code:'ENOENT'}),/找不到/);assert.doesNotMatch(codexSpawnError({code:'EACCES'}),/未安裝/)});
+test('拒絕恢復與接收任務應顯示階段及原因，過濾憑證',()=>{const x=codexRpcError(3,{code:-32602,message:'unsupported model'});assert.match(x,/接收/);assert.match(x,/unsupported model/);assert.match(codexRpcError(2,{code:-32000,message:'thread missing'}),/恢復/);assert.doesNotMatch(codexRpcError(3,{message:'Authorization: Bearer secret-123'}),/secret-123/)});
+test('原聊天室已有寫入者時顯示衝突而非要求登入',()=>{const x=codexRpcError(2,{code:-32600,message:'thread test already has an active writer'});assert.match(x,/另一個.*Codex|Codex.*佔用/);assert.match(x,/未送出/);assert.doesNotMatch(x,/登入/)});

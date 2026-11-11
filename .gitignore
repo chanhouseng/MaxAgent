@@ -1,0 +1,18 @@
+# 依賴與建置產物
+node_modules/
+dist/
+out/
+
+# 內嵌的 Claude Code 執行檔（330 MB，超過 GitHub 單檔上限，請自備）
+runtime/claude/claude.exe
+
+# 本機狀態與暫存
+*.log
+.dsh-office-*/
+__pycache__/
+*.pyc
+
+# 作業系統
+Thumbs.db
+desktop.ini
+.DS_Store

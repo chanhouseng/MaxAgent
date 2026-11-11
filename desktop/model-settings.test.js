@@ -1,0 +1,2 @@
+const {test}=require('node:test'),a=require('node:assert/strict');const {validateSelection}=require('./model-settings');
+test('模型與強度按清單驗證，空值沿用',()=>{const m=[{id:'m',efforts:['low','high']}];a.deepEqual(validateSelection({model:'m',effort:'high'},m),{model:'m',effort:'high'});a.deepEqual(validateSelection({},[]),{});a.throws(()=>validateSelection({model:'m',effort:'medium'},m));a.throws(()=>validateSelection({model:'wrong'},m));a.throws(()=>validateSelection({effort:'low'},m))});
