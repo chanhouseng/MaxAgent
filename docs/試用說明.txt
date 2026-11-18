@@ -1,0 +1,11 @@
+MaxAgent Windows x64 試用版
+
+將整個 ZIP 解壓到您自己的資料夾，雙擊 MaxAgent.exe。此版不需要安裝 Node.js 或 npm。請保留解壓後的所有檔案。
+
+MaxAgent 讀取本機既有的 Codex 和 Claude Code 對話。請自行安裝及登入所需工具；本試用版不包含工具執行檔，也不包含其他人的聊天或設定。
+Codex 找不到時，請安裝 Codex，或將 MAXAGENT_CODEX_CLI 環境變數設為自己的 codex.exe 完整路徑，然後重新啟動 MaxAgent。
+Claude Code 找不到時，請在 MaxAgent「設定」選擇自己的 claude.exe，或使 claude.exe 出現在 PATH 中。
+
+Codex 原聊天室被桌面程式佔用時，直接派工可能被拒；僅在確認尚未送出時，可使用「複製任務並開啟 Codex」，然後自行選擇原對話、貼上及送出。Windows 叫出既有視窗的行為尚待確認。
+Windows 完成通知可在設定開啟，但此打包版本的系統彈窗尚未確認。寵物的 Claude 原工具完成提醒需由使用者在設定自行啟用 Hook。
+此為試用版；打包版真實派工、模型實際採用和 Windows 彈窗未驗證。程式設定及草稿保存在目前 Windows 使用者的應用程式資料目錄。

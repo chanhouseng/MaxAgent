@@ -1,0 +1,4 @@
+'use strict';
+const fs=require('node:fs');
+function createCodexWatch(onChange,delay=200){const watchers=new Map(),timers=new Map();function wake(key){clearTimeout(timers.get(key));const t=setTimeout(()=>{timers.delete(key);onChange(key)},delay);t.unref?.();timers.set(key,t)}return {sync(sessions){for(const [key,w] of watchers){const s=sessions.get(key);if(!s||s.file!==w.file){w.watcher.close();watchers.delete(key);clearTimeout(timers.get(key));timers.delete(key)}}for(const [key,s] of sessions){if(s.tool!=='codex'||watchers.has(key))continue;try{const watcher=fs.watch(s.file,()=>wake(key));watcher.on('error',()=>{watcher.close();watchers.delete(key)});watchers.set(key,{file:s.file,watcher})}catch{}}},wake,close(){for(const w of watchers.values())w.watcher.close();watchers.clear();for(const t of timers.values())clearTimeout(t);timers.clear()}}}
+module.exports={createCodexWatch};

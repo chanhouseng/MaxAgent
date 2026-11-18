@@ -1,0 +1,8 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const entry=command=>({hooks:[{type:'command',command,timeout:3}]});
+function read(file){try{const raw=fs.readFileSync(file,'utf8'),data=JSON.parse(raw.replace(/^\uFEFF/,''));if(!data||Array.isArray(data)||typeof data!=='object'||data.hooks!=null&&(typeof data.hooks!=='object'||Array.isArray(data.hooks))||data.hooks?.Stop!=null&&!Array.isArray(data.hooks.Stop))throw Error();return {raw,data}}catch(e){if(e.code==='ENOENT')return {raw:null,data:{}};throw Error('無法安全讀取 Codex Hook 設定，請檢查格式和權限。')}}
+function isOwned(x,command){return JSON.stringify(x)===JSON.stringify(entry(command))}
+function getCodexHook(file,command){return (read(file).data.hooks?.Stop||[]).some(x=>isOwned(x,command))}
+function setCodexHook(file,command,enabled){if(typeof enabled!=='boolean')throw Error('無效的 Hook 設定。');const {raw,data}=read(file);if(enabled){data.hooks??={};data.hooks.Stop??=[];if(!data.hooks.Stop.some(x=>isOwned(x,command)))data.hooks.Stop.push(entry(command))}else if(data.hooks?.Stop){data.hooks.Stop=data.hooks.Stop.filter(x=>!isOwned(x,command));if(!data.hooks.Stop.length)delete data.hooks.Stop;if(!Object.keys(data.hooks).length)delete data.hooks}if(raw===null&&!enabled)return;fs.mkdirSync(path.dirname(file),{recursive:true});const temp=file+'.maxagent-'+crypto.randomBytes(8).toString('hex')+'.tmp';try{fs.writeFileSync(temp,JSON.stringify(data,null,2)+'\n',{encoding:'utf8',flag:'wx'});let current=null;try{current=fs.readFileSync(file,'utf8')}catch(e){if(e.code!=='ENOENT')throw e}if(current!==raw)throw Error('Codex Hook 設定剛被修改，請再試一次。');fs.renameSync(temp,file)}finally{try{fs.unlinkSync(temp)}catch{}}}
+module.exports={getCodexHook,setCodexHook};

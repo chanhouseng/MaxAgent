@@ -1,1 +1,21 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>MaxAgent 桌面寵物</title><link rel="stylesheet" href="pet.css"></head><body><header><div class="pet" aria-hidden="true"><span>• •</span><small>◡</small></div><div><strong>MaxAgent</strong><p id="summary">沒有 MaxAgent 派出的處理中任務</p></div></header><p>僅追蹤 MaxAgent 派出的任務；原工具的任務不在此顯示。</p><main><section><h2>處理中</h2><ul id="running"></ul></section><section><h2>剛完成</h2><ul id="recent"></ul></section></main><script src="pet.js"></script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width">
+ <title>MaxAgent 桌面寵物</title>
+ <link rel="stylesheet" href="pet.css">
+</head>
+<body>
+ <div id="handle"><button id="dot" type="button" aria-label="展開任務列表" aria-controls="lists" aria-expanded="false"></button></div>
+ <main id="lists" hidden>
+  <section id="running-section" hidden><h2>處理中</h2><ul id="running"></ul></section>
+  <section id="recent-section" hidden><h2>剛完成</h2><ul id="recent"></ul></section>
+  <p id="empty-state" class="empty">沒有內容</p>
+  <p id="open-status" role="status"></p>
+ </main>
+ <script src="i18n.js"></script>
+ <script src="i18n-messages.js"></script>
+ <script src="pet.js"></script>
+</body>
+</html>

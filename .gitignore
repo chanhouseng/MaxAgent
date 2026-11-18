@@ -3,8 +3,18 @@ node_modules/
 dist/
 out/
 
-# 內嵌的 Claude Code 執行檔（330 MB，超過 GitHub 單檔上限，請自備）
-runtime/claude/claude.exe
+# 工具執行檔由使用者在本機安裝，不提交至原始碼
+runtime/
+
+# 憑證與本機環境設定（範本可以提交）
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.key
+*.pem
+*.pfx
+*.p12
 
 # 本機狀態與暫存
 *.log

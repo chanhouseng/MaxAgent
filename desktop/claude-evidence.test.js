@@ -1,0 +1,5 @@
+const {test}=require('node:test'),assert=require('node:assert/strict');const {findResult}=require('./result-evidence');const {claudeFinish}=require('./harness');
+const row=(uuid,id,text,extra={})=>JSON.stringify({type:'assistant',sessionId:'s',uuid,message:{id,stop_reason:'end_turn',content:[{type:'text',text}]},...extra})+'\n';
+test('共用 assistant 訊息 ID 優先，錯誤 ID 不以文字降級',()=>{let data=row('u1','m1','same');assert.equal(findResult('claude',data,'s',{result:'same',messageId:'m2'}),null);assert.deepEqual(findResult('claude',data,'s',{result:'same',messageId:'m1'}),{marker:'u1',turn:'u1'});});
+test('沒有共用 ID 時僅接受唯一同輪正式回覆',()=>{let data=row('u1','m1','same');assert.ok(findResult('claude',data,'s',{result:'same'}));assert.equal(findResult('claude',data+row('u2','m2','same'),'s',{result:'same'}),null);assert.equal(findResult('claude',row('u1','m1','same',{isSidechain:true}),'s',{result:'same'}),null);});
+test('明確非正常停止不能成功',()=>{let r={type:'result',session_id:'s',subtype:'success',is_error:false,stop_reason:'max_tokens'};assert.equal(claudeFinish(r,'s',0),false);assert.equal(claudeFinish({...r,stop_reason:'end_turn'},'s',1),false)});
